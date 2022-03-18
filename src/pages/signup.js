@@ -29,7 +29,7 @@ export const Signup = () => {
     var fulldate = day + "-0" + month + "-" + fullyear;
     e.preventDefault();
     if (name === "" || email === "" || password === "" || mobile === "") {
-      toast.error("Please fill all fields");
+      toast.error("Please fill modificareee fields");
     } else {
       fire
         .auth()
@@ -130,7 +130,7 @@ export const Signup = () => {
                 },
               });
             } else {
-              toast.error("invalid email or password");
+              toast.error("Invalid email or password");
             }
           })
         )
