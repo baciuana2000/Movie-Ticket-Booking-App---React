@@ -130,7 +130,7 @@ export const Signup = () => {
                 },
               });
             } else {
-              toast.error("invalid email or password");
+              toast.error("Invalid email or password");
             }
           })
         )
