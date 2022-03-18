@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import fire from "../files/firebase";
 import { useHistory } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import fire from "../files/firebase";
 import "../App.css";
 
 export const Signup = () => {
-  const [profile, setprofile] = useState("");
-  const [url, seturl] = useState("");
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -28,58 +29,80 @@ export const Signup = () => {
     var fulldate = day + "-0" + month + "-" + fullyear;
     e.preventDefault();
     if (name === "" || email === "" || password === "" || mobile === "") {
-      alert("please fill all fields");
+      toast.error("Please fill all fields");
     } else {
       fire
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
           fire
-            .storage()
-            .ref("profile Images")
-            .child(fulldate.toString() + ".jpg")
-            .put(profile)
+            .firestore()
+            .collection("users")
+            .add({
+              name: name,
+              email: email,
+              password: password,
+              mobile: mobile,
+            })
             .then(() => {
-              fire
-                .storage()
-                .ref("profile Images")
-                .child(fulldate.toString() + ".jpg")
-                .getDownloadURL()
-                .then((url) => {
-                  console.log(url);
-                  seturl(url);
-                  alert(url);
-                  fire
-                    .firestore()
-                    .collection("users")
-                    .add({
-                      profile: url,
-                      name: name,
-                      email: email,
-                      password: password,
-                      mobile: mobile,
-                    })
-                    .then(() => {
-                      alert("account created successfully");
-                    })
-                    .catch((err) => console.log(err));
-                })
-                .catch((err) => console.log(err));
-            });
-        });
+              toast.success("Account created successfully");
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
     }
-    setname("");
-    setemail("");
-    setpassword("");
-    setmobile("");
+    // } else {
+    //   console.log('signup a inceput')
+    //   fire
+    //     .auth()
+    //     .createUserWithEmailAndPassword(email, password)
+    //     .then(() => {
+    //       fire
+    //         .storage()
+    //         .ref("profile Images")
+    //         .child(fulldate.toString() + ".jpg")
+    //         .put(profile)
+    //         .then(() => {
+    //           fire
+    //             .storage()
+    //             .ref("profile Images")
+    //             .child(fulldate.toString() + ".jpg")
+    //             .getDownloadURL()
+    //             .then((url) => {
+    //               console.log(url);
+    //               seturl(url);
+    //               alert(url);
+    //               fire
+    //                 .firestore()
+    //                 .collection("users")
+    //                 .add({
+    //                   name: name,
+    //                   email: email,
+    //                   password: password,
+    //                   mobile: mobile,
+    //                 })
+    //                 .then(() => {
+    //                   alert("account created successfully");
+    //                 })
+    //                 .catch((err) => console.log(err));
+    //             })
+    //             .catch((err) => console.log(err));
+    //         });
+    //     });
+    // }
+    // setname("");
+    // setemail("");
+    // setpassword("");
+    // setmobile("");
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
     if (email === "" || password === "") {
-      alert("please enter email and password");
+      toast.error("Please enter email and password");
     }
     if (admin == true) {
+      //admin
       fire
         .firestore()
         .collection("admin")
@@ -88,6 +111,7 @@ export const Signup = () => {
         .get()
         .then((snapshot) =>
           snapshot.forEach((ele) => {
+            console.log("admin");
             var data = ele.data();
             var profile = data.profile;
             var name = data.name;
@@ -106,11 +130,13 @@ export const Signup = () => {
                 },
               });
             } else {
-              alert("invalid email or password");
+              toast.error("invalid email or password");
             }
           })
-        );
+        )
+        .catch((err) => toast.error(err.message));
     } else {
+      //user
       fire
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -128,25 +154,31 @@ export const Signup = () => {
                 var email = data.email;
                 var password = data.password;
                 var mobile = data.mobile;
-                history.push({
-                  pathname: "/homepage",
-                  state: {
-                    profile: profile,
-                    name: name,
-                    email: email,
-                    password: password,
-                    mobile: mobile,
-                  },
-                });
+                if (email === email && password === password) {
+                  history.push({
+                    pathname: "/homepage",
+                    state: {
+                      profile: profile,
+                      name: name,
+                      email: email,
+                      password: password,
+                      mobile: mobile,
+                    },
+                  });
+                } else {
+                  toast.error("Invalid email or Password");
+                }
               });
             });
-        });
+        })
+        .catch((err) => toast.error(err.message));
     }
-    setemail("");
-    setpassword("");
+    // setemail("");
+    // setpassword("");
   };
   return (
     <div>
+      <ToastContainer />
       <h2>Movie Ticket Booking App</h2>
       <div class="container" id="container">
         <div class="form-container sign-up-container">
@@ -164,11 +196,6 @@ export const Signup = () => {
               </a>
             </div>
             <span>or use your email for registration</span>
-            <input
-              type="file"
-              placeholder="Pick Image"
-              onChange={(e) => setprofile(e.target.files[0])}
-            />
             <input
               type="text"
               placeholder="Name"
