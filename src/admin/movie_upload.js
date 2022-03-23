@@ -1,14 +1,19 @@
 import React, { useState } from "react";
+import ReactDropdown from "react-dropdown";
 import { useHistory, useLocation, Link } from "react-router-dom";
+import "react-dropdown/style.css";
+
 import fire from "../files/firebase";
 import "../movie_details.css";
 
 export const Movieupload = () => {
+  const movieGenderList = ["Comedy", "Drama", "Action"];
   const [image, setimage] = useState(
     "https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/11/teen-wolf-seasons-ranked.jpg"
   );
-  const [moviename, setmoviename] = useState("Default name");
-  const [ticketcost, setticketcost] = useState("100");
+  const [moviename, setMovieName] = useState("Default name");
+  const [movieGender, setMovieGender] = useState("Comedie");
+  const [ticketcost, setTicketCost] = useState("100");
   const [description, setdescription] = useState("Default description");
   const [actorname, setactorname] = useState("Default Actor Name");
   const [directorname, setdirectorname] = useState("Default director name");
@@ -27,9 +32,9 @@ export const Movieupload = () => {
   const movieUpload = (e) => {
     e.preventDefault();
     if (
+      moviename === "" ||
       image === "" ||
       viedo === "" ||
-      moviename === "" ||
       description === "" ||
       actorname === "" ||
       directorname === "" ||
@@ -42,11 +47,12 @@ export const Movieupload = () => {
         .firestore()
         .collection("currentmovies")
         .add({
+          moviename: moviename,
           image: image,
           viedourl: viedo,
-          moviename: moviename,
           ticketcost: ticketcost,
           description: description,
+          movieGender: movieGender,
           actorname: actorname,
           directorname: directorname,
           releasedate: releasedate,
@@ -56,8 +62,8 @@ export const Movieupload = () => {
           alert("Movie Added Successfully");
           setimage("");
           setviedo("");
-          setmoviename("");
-          setticketcost("");
+          setMovieName("");
+          setTicketCost("");
           setdescription("");
           setactorname("");
           setdirectorname("");
@@ -232,67 +238,144 @@ export const Movieupload = () => {
                 Upload Theater Movies
               </h2>
               <br />
-              <input
-                type="text"
-                placeholder="movie image url"
-                value={image}
-                onChange={(e) => setimage(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="movie viedo url"
-                value={viedo}
-                onChange={(e) => setviedo(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Movie name"
-                value={moviename}
-                onChange={(e) => setmoviename(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Ticket Cost"
-                value={ticketcost}
-                onChange={(e) => setticketcost(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setdescription(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Actor Name"
-                value={actorname}
-                onChange={(e) => setactorname(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Director Name"
-                value={directorname}
-                onChange={(e) => setdirectorname(e.target.value)}
-              />
-              <input
-                type="date"
-                placeholder="Pick release Date"
-                value={releasedate}
-                onChange={(e) => setreleasedate(e.target.value)}
-              />
-              <input
-                type="date"
-                placeholder="Pick out Date"
-                value={outdate}
-                onChange={(e) => setoutdate(e.target.value)}
-              />
+              <div className="rowContainer">
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Image Url
+                  </label>
+                  <input
+                    className="formInput"
+                    type="text"
+                    placeholder="movie image url"
+                    value={image}
+                    onChange={(e) => setimage(e.target.value)}
+                  />
+                </div>
 
-              <input
-                type="button"
-                style={{ background: "#ff4b2b", color: "white" }}
-                value="Upload Movie"
-                onClick={movieUpload}
-              />
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Video Url
+                  </label>
+                  <input
+                    className="formInput"
+                    type="text"
+                    placeholder="movie viedo url"
+                    value={viedo}
+                    onChange={(e) => setviedo(e.target.value)}
+                  />
+                </div>
+
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Movie Name
+                  </label>
+                  <input
+                    className="formInput"
+                    type="text"
+                    placeholder="Movie name"
+                    value={moviename}
+                    onChange={(e) => setMovieName(e.target.value)}
+                  />
+                </div>
+
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Ticket Cost
+                  </label>
+                  <input
+                    className="formInput"
+                    type="text"
+                    placeholder="Ticket Cost"
+                    value={ticketcost}
+                    onChange={(e) => setTicketCost(e.target.value)}
+                  />
+                </div>
+
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Description
+                  </label>
+                  <input
+                    className="formInput"
+                    type="text"
+                    placeholder="Description"
+                    value={description}
+                    onChange={(e) => setdescription(e.target.value)}
+                  />
+                </div>
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Movie Gender
+                  </label>
+                  <ReactDropdown
+                    controlClassName="myControlClassName"
+                    options={movieGenderList}
+                    onChange={(e) => {
+                      setMovieGender(e.value);
+                    }}
+                    value={movieGender}
+                    placeholder="Select an option"
+                  />
+                </div>
+
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Actor Name
+                  </label>
+                  <input
+                    className="formInput"
+                    type="text"
+                    placeholder="Actor Name"
+                    value={actorname}
+                    onChange={(e) => setactorname(e.target.value)}
+                  />
+                </div>
+
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Director Name
+                  </label>
+                  <input
+                    className="formInput"
+                    type="text"
+                    placeholder="Director Name"
+                    value={directorname}
+                    onChange={(e) => setdirectorname(e.target.value)}
+                  />
+                </div>
+
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Release Date
+                  </label>
+                  <input
+                    className="formInput"
+                    type="date"
+                    placeholder="Pick release Date"
+                    value={releasedate}
+                    onChange={(e) => setreleasedate(e.target.value)}
+                  />
+                </div>
+
+                <div className="labelInputWrapper">
+                  <label className="formLabel" for="name">
+                    Pick Out Date
+                  </label>
+                  <input
+                    className="formInput"
+                    type="date"
+                    placeholder="Pick out Date"
+                    value={outdate}
+                    onChange={(e) => setoutdate(e.target.value)}
+                  />
+                </div>
+                <input
+                  type="button"
+                  style={{ background: "#ff4b2b", color: "white" }}
+                  value="Upload Movie"
+                  onClick={movieUpload}
+                />
+              </div>
             </form>
           </div>
         </div>

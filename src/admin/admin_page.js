@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import MovieCard from "../components/MovieCard";
 import fire from "../files/firebase";
 
 export const Adminpage = () => {
@@ -12,16 +13,6 @@ export const Adminpage = () => {
   const mobile = location.state.mobile;
   const [moviedata, setmoviedata] = useState([]);
   const [movieDeleted, setMovieDeleted] = useState(false);
-
-  const deleteMovie = (data) => {
-    fire
-      .firestore()
-      .collection("currentmovies")
-      .where("moviename", "==", data.data.moviename)
-      .get()
-      .then((doc) => doc.docs[0].ref.delete())
-      .then(() => setMovieDeleted(!movieDeleted));
-  };
 
   useEffect(() => {
     fire
@@ -181,23 +172,12 @@ export const Adminpage = () => {
 
         <div className="row">
           {moviedata.map((data, index) => {
-            //console.log(data.image);
             return (
-              <div
-                className="col-4"
-                key={index}
-                style={{ marginLeft: "auto", marginRight: "auto" }}
-              >
-                <div className="card">
-                  <div className="card-img-top img-fluid">
-                    <img
-                      src={data.data.image}
-                      style={{ width: "18rem", height: "20rem" }}
-                    />
-                  </div>
-                  <button onClick={() => deleteMovie(data)}>Delete</button>
-                </div>
-              </div>
+              <MovieCard
+                data={data}
+                movieDeleted={movieDeleted}
+                setMovieDeleted={setMovieDeleted}
+              />
             );
           })}
         </div>
