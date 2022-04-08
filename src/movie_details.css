@@ -1,7 +1,18 @@
+.test {
+  background-color: seagreen;
+}
 .myControlClassName {
   width: 20rem !important;
   background: #eee !important;
   border-radius: 0.5rem;
+}
+
+.row-wrapper {
+  display: flex;
+  /* overflow-x: auto; */
+}
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .labelInputWrapper {

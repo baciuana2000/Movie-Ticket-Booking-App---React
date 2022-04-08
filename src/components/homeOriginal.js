@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { Icon } from "semantic-ui-react";
-
-import MovieCard from "../components/MovieCard";
 import fire from "../files/firebase";
-import "./adminPage.css";
+// import "../movie_details.css";
+import MovieCardUser from "./MovieCardUser";
+import "./home.css";
+import Nav from "./Nav";
 
-export const Adminpage = () => {
+export const Homepage = () => {
   const history = useHistory();
   const location = useLocation();
   const profile = location.state.profile;
@@ -14,8 +14,7 @@ export const Adminpage = () => {
   const email = location.state.email;
   const password = location.state.password;
   const mobile = location.state.mobile;
-  const [moviedata, setmoviedata] = useState([]);
-  const [movieDeleted, setMovieDeleted] = useState(false);
+  const [movieData, setMovieData] = useState([]);
 
   useEffect(() => {
     fire
@@ -23,23 +22,17 @@ export const Adminpage = () => {
       .collection("currentmovies")
       .get()
       .then((snapshot) => {
-        setmoviedata([]);
         snapshot.forEach((doc) => {
           var data = doc.data();
           //console.log(data);
-          setmoviedata((arr) => [...arr, { data: data }]);
+          setMovieData((arr) => [...arr, { data: data }]);
         });
       });
-    console.log(moviedata);
-  }, [movieDeleted]);
-
+    console.log(movieData);
+  }, []);
   return (
-    <div className="wrapper">
-      <link
-        href="../assets/css/material-dashboard.css?v=2.1.2"
-        rel="stylesheet"
-      />
-      <div
+    <div className="wrapper ">
+      {/* <div
         className="sidebar"
         data-color="purple"
         data-background-color="white"
@@ -58,7 +51,7 @@ export const Adminpage = () => {
             <li className="nav-item active  ">
               <Link
                 to={{
-                  pathname: "/adminpage",
+                  pathname: "/homepage",
                   state: {
                     profile: profile,
                     name: name,
@@ -76,7 +69,7 @@ export const Adminpage = () => {
             <li className="nav-item">
               <Link
                 to={{
-                  pathname: "/movieupload",
+                  pathname: "/dashboard",
                   state: {
                     profile: profile,
                     name: name,
@@ -88,13 +81,13 @@ export const Adminpage = () => {
                 className="nav-link"
               >
                 <i className="material-icons">dashboard</i>
-                <p>Movie Upload</p>
+                <p>Dashboard</p>
               </Link>
             </li>
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/adminbooking",
+                  pathname: "/bookings",
                   state: {
                     profile: profile,
                     name: name,
@@ -106,13 +99,13 @@ export const Adminpage = () => {
                 className="nav-link"
               >
                 <i className="material-icons">content_paste</i>
-                <p>Retrieve Bookings</p>
+                <p>Bookings</p>
               </Link>
             </li>
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/adminprofile",
+                  pathname: "/userprofile",
                   state: {
                     profile: profile,
                     name: name,
@@ -130,7 +123,7 @@ export const Adminpage = () => {
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/retrievefeedback",
+                  pathname: "/feedback",
                   state: {
                     profile: profile,
                     name: name,
@@ -153,76 +146,32 @@ export const Adminpage = () => {
             </li>
           </ul>
         </div>
-      </div>
-      <div className="main-panel">
-        <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-          <div className="container-fluid">
-            <div className="navbar-wrapper"></div>
+      </div> */}
+      <div className="homeWrapper">
+        {/* <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+          <div class="container-fluid">
+            <div class="navbar-wrapper"></div>
             <button
-              className="navbar-toggler"
+              class="navbar-toggler"
               type="button"
               data-toggle="collapse"
               aria-controls="navigation-index"
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <span className="sr-only">Toggle navigation</span>
-              <span className="navbar-toggler-icon icon-bar"></span>
-              <span className="navbar-toggler-icon icon-bar"></span>
-              <span className="navbar-toggler-icon icon-bar"></span>
+              <span class="sr-only">Toggle navigation</span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
             </button>
           </div>
-        </nav>
-
-        <h1>Comedy</h1>
-        <div className="row-wrapper">
-          {moviedata.slice(0, 5).map((data, index) => {
-            return (
-              <MovieCard
-                data={data}
-                movieDeleted={movieDeleted}
-                setMovieDeleted={setMovieDeleted}
-              />
-            );
-          })}
-          <Icon name="angle right" size="mini" />
-        </div>
-        {/* <div className="row-wrapper">
-          <h1>Drama</h1>
-          {moviedata.map((data, index) => {
-            return (
-              <MovieCard
-                data={data}
-                movieDeleted={movieDeleted}
-                setMovieDeleted={setMovieDeleted}
-              />
-            );
+        </nav> */}
+        <div className="moviesRow">
+          {movieData.map((movie, index) => {
+            console.log(movie.data.image);
+            return <MovieCardUser movie={movie} />;
           })}
         </div>
-        <div className="row-wrapper">
-          <h1>Action</h1>
-          {moviedata.map((data, index) => {
-            return (
-              <MovieCard
-                data={data}
-                movieDeleted={movieDeleted}
-                setMovieDeleted={setMovieDeleted}
-              />
-            );
-          })}
-        </div>
-        <div className="row-wrapper">
-          <h1>Romance</h1>
-          {moviedata.map((data, index) => {
-            return (
-              <MovieCard
-                data={data}
-                movieDeleted={movieDeleted}
-                setMovieDeleted={setMovieDeleted}
-              />
-            );
-          })}
-        </div> */}
       </div>
     </div>
   );

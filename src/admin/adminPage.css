@@ -1,0 +1,4 @@
+.adminPageWrapper {
+  display: flex;
+  flex-direction: row;
+}

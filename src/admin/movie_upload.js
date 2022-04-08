@@ -9,7 +9,7 @@ import "../movie_details.css";
 export const Movieupload = () => {
   const movieGenderList = ["Comedy", "Drama", "Action"];
   const [image, setimage] = useState(
-    "https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/11/teen-wolf-seasons-ranked.jpg"
+    "https://blog.starzplay.com/wp-content/uploads/2016/02/teenwolf.jpg"
   );
   const [moviename, setMovieName] = useState("Default name");
   const [movieGender, setMovieGender] = useState("Comedie");
@@ -59,16 +59,16 @@ export const Movieupload = () => {
           outdate: outdate,
         })
         .then(() => {
-          alert("Movie Added Successfully");
-          setimage("");
-          setviedo("");
-          setMovieName("");
-          setTicketCost("");
-          setdescription("");
-          setactorname("");
-          setdirectorname("");
-          setreleasedate("");
-          setoutdate("");
+          console.log("Movie Added Successfully");
+          // setimage("");
+          // setviedo("");
+          // setMovieName("");
+          // setTicketCost("");
+          // setdescription("");
+          // setactorname("");
+          // setdirectorname("");
+          // setreleasedate("");
+          // setoutdate("");
         })
         .catch((err) => console.log(err));
     }

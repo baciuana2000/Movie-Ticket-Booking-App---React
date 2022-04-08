@@ -34,7 +34,7 @@ export default function MovieCard({ data, movieDeleted, setMovieDeleted }) {
             style={{ width: "100%", height: "100%", borderRadius: "1%" }}
           />
         </div>
-        {/* <button onClick={() => deleteMovie(data)}>Delete</button> */}
+        <button onClick={() => deleteMovie(data)}>Delete</button>
       </div>
     </div>
   );
