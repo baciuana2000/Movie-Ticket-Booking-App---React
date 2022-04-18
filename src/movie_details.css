@@ -54,8 +54,6 @@
 .retrieve-form {
   background: rgb(246, 245, 247) none repeat scroll 0% 0%;
   width: max-content;
-  margin-top: inherit;
-  margin-left: -28%;
 }
 .pick-ceats {
   background-color: #ff4b2b;
@@ -114,6 +112,7 @@
   }
   .profile {
     padding-top: -1px;
+    margin-left: 212px;
   }
   #pro-nav {
     margin-top: -157px;

@@ -1,10 +1,27 @@
 import React, { useState } from "react";
 import "./MovieCardUser.css";
 import { useHistory } from "react-router";
+import fire from "../files/firebase";
 
-export default function MovieCardUser({ movie, index }) {
+export default function MovieCardUser({
+  movie,
+  index,
+  email,
+  admin = false,
+  movieDeleted,
+  setMovieDeleted,
+}) {
   const history = useHistory();
   const [displayCardDetails, setDisplayCardDetails] = useState(false);
+  const deleteMovie = (movieName) => {
+    fire
+      .firestore()
+      .collection("currentmovies")
+      .where("moviename", "==", movieName)
+      .get()
+      .then((doc) => doc.docs[0].ref.delete())
+      .then(() => setMovieDeleted(!movieDeleted)); // trigger the refresh
+  };
   return (
     <div
       className="movieCardUser"
@@ -21,28 +38,36 @@ export default function MovieCardUser({ movie, index }) {
         src={movie.image}
         style={{ width: "30vh", height: "15vh", borderRadius: "10px" }}
       />
-      <div className="actorName">{movie.actorname}</div>
-      <button
-        className="bookNowButton"
-        onClick={() =>
-          history.push({
-            pathname: "/bookingform",
-            state: {
-              releasedate: movie.releasedate,
-              outdate: movie.outdate,
-              movieimage: movie.image,
-              moviename: movie.moviename,
-              ticketcost: movie.ticketcost,
-              // name: name,
-              // email: email,
-              // password: password,
-              // mobile: mobile,
-            },
-          })
-        }
-      >
-        Buy
-      </button>
+      {admin ? (
+        <button
+          className="bookNowButton"
+          onClick={() => {
+            console.log("🚀 ~ movie", movie);
+            deleteMovie(movie.moviename);
+          }}
+        >
+          Delete
+        </button>
+      ) : (
+        <button
+          className="bookNowButton"
+          onClick={() =>
+            history.push({
+              pathname: "/bookingform",
+              state: {
+                releasedate: movie.releasedate,
+                outdate: movie.outdate,
+                movieimage: movie.image,
+                moviename: movie.moviename,
+                ticketcost: movie.ticketcost,
+                email: email,
+              },
+            })
+          }
+        >
+          Buy
+        </button>
+      )}
       <div
         className="col-4"
         key={index}

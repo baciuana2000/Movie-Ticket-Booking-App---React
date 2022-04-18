@@ -6,7 +6,7 @@ export default function MovieCard({ data, movieDeleted, setMovieDeleted }) {
     fire
       .firestore()
       .collection("currentmovies")
-      .where("moviename", "==", data.data.moviename)
+      .where("movieName", "==", data.data.movieName)
       .get()
       .then((doc) => doc.docs[0].ref.delete())
       .then(() => setMovieDeleted(!movieDeleted)); // trigger the refresh

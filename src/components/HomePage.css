@@ -1,5 +1,6 @@
 .movieRow {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .movieCardUser {
@@ -19,9 +20,5 @@
 }
 
 .homeWrapper {
-  display: flex;
-}
-
-.carousel {
   display: flex;
 }

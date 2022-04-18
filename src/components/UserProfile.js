@@ -1,37 +1,19 @@
-import React, { useState } from "react";
-import { useHistory, useLocation, Link } from "react-router-dom";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import fire from "../files/firebase";
-import "../movie_details.css";
+import "../profile.css";
 
-export const Feedback = () => {
+export const Userprofile = () => {
   const location = useLocation();
   const profile = location.state.profile;
   const name = location.state.name;
   const email = location.state.email;
   const password = location.state.password;
   const mobile = location.state.mobile;
-  const [feedback, setfeedback] = useState("");
+  console.log(profile, name, email, password, mobile);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name === "" || email === "" || feedback === "") {
-      alert("please enter feedback");
-    } else {
-      fire
-        .firestore()
-        .collection("feedback")
-        .add({
-          username: name,
-          email: email,
-          feedback: feedback,
-        })
-        .then(() => alert("feedback submitted successfully"))
-        .catch((err) => console.log(err));
-      setfeedback("");
-    }
-  };
   return (
-    <div className="wrapper ">
+    <div>
       <link
         href="../assets/css/material-dashboard.css?v=2.1.2"
         rel="stylesheet"
@@ -106,7 +88,7 @@ export const Feedback = () => {
                 <p>Bookings</p>
               </Link>
             </li>
-            <li className="nav-item ">
+            <li className="nav-item active">
               <Link
                 to={{
                   pathname: "/userprofile",
@@ -124,7 +106,7 @@ export const Feedback = () => {
                 <p>User Profile</p>
               </Link>
             </li>
-            <li className="nav-item active">
+            <li className="nav-item ">
               <Link
                 to={{
                   pathname: "/feedback",
@@ -156,8 +138,8 @@ export const Feedback = () => {
           <div class="container-fluid">
             <div class="navbar-wrapper"></div>
             <button
-              className="navbar-toggler"
-              id="navbar"
+              class="navbar-toggler"
+              id="pro-nav"
               type="button"
               data-toggle="collapse"
               aria-controls="navigation-index"
@@ -172,96 +154,64 @@ export const Feedback = () => {
           </div>
         </nav>
         <div
-          class="form-container sign-in-container"
-          className="feedback-form"
           style={{
-            position: "absolute",
+            height: "100vh",
             width: "100%",
-            height: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <form
-            className="feedback"
+          <div
+            className="profile"
             style={{
-              background: "#f6f5f7",
-              display: "flinline flow-root list-item",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              padding: "0 50px",
-              height: "100%",
+              fontFamily: "sans-serif",
               textAlign: "center",
-              width: "max-content",
+              maxWidth: "350px",
+              boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+              padding: "100px",
+              marginLeft: "200px",
             }}
           >
-            <h1
+            <img
+              src={profile}
+              alt="Profile Image"
+              className="profile__image"
               style={{
-                fontWeight: "bold",
-                margin: "0",
-                fontSize: "2em",
+                width: "150px",
+                height: "150px",
+                objectFit: "cover",
+                borderRadius: "50%",
+                margin: "0 auto 20px auto",
+                display: "block",
+                marginTop: "-8%",
+              }}
+            />
+            <div
+              className="profile__name"
+              style={{ fontSize: "1.2em", fontWeight: "bold" }}
+            >
+              {name}
+            </div>
+            <br />
+            <div className="profile__title" style={{ marginBottom: "20px" }}>
+              {email}
+            </div>
+
+            <div
+              className="profile__detail"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "0.9em",
+                marginBottom: "20px",
               }}
             >
-              Give Your Feedback
-            </h1>
-            <span></span>
-            <br />
-            <input
-              type="text"
-              placeholder="Username"
-              value={name}
-              style={{
-                backgroundColor: "#eee",
-                border: "none",
-                padding: "12px 15px",
-                margin: "8px 0",
-                width: "100%",
-              }}
-            />
-            <input
-              type="text"
-              placeholder="email"
-              value={email}
-              style={{
-                backgroundColor: "#eee",
-                border: "none",
-                padding: "12px 15px",
-                margin: "8px 0",
-                width: "100%",
-              }}
-            />
-            <textarea
-              placeholder="Give feedback"
-              value={feedback}
-              onChange={(e) => setfeedback(e.target.value)}
-              style={{
-                backgroundColor: "#eee",
-                border: "none",
-                padding: "12px 15px",
-                margin: "8px 0",
-                width: "100%",
-              }}
-            />
-            <br />
-            <button
-              style={{
-                borderRadius: "100px",
-                border: "1px solid #ff4b2b",
-                backgroundColor: "#ff4b2b",
-                color: "#ffffff",
-                fontSize: "12px",
-                fontWeight: "bold",
-                padding: "12px 45px",
-                letterSpacing: "1px",
-                textTransform: "uppercase",
-              }}
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </form>
+              <i className="material-icons">person</i>
+              {mobile}
+            </div>
+          </div>
         </div>
       </div>
     </div>

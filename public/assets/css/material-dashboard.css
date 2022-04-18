@@ -15994,11 +15994,11 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar {
-  position: relative;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 2;
+  z-index: 3;
   width: 200px;
   background: #fff;
   box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56),
@@ -16022,7 +16022,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar .sidebar-wrapper {
-  position: relative;
+  position: fixed;
   height: calc(100vh - 75px);
   overflow: auto;
   width: 200px;
@@ -16506,10 +16506,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .main-panel > .content {
-  margin-top: 70px;
-  padding: 30px 15px;
-  min-height: calc(100vh - 123px);
-  margin-left: -17%;
+  margin-left: 212px;
+  width: 100%;
 }
 
 .main-panel > .footer {

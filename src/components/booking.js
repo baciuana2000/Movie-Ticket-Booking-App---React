@@ -193,7 +193,7 @@ export const Booking = () => {
                             return (
                               <tr key={index}>
                                 <td>{data.data.currentdate}</td>
-                                <td>{data.data.moviename}</td>
+                                <td>{data.data.movieName}</td>
                                 <td>{data.data.totalceats}</td>
                                 <td>{data.data.bookingdate}</td>
                               </tr>

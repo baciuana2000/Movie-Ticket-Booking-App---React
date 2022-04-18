@@ -2,20 +2,20 @@ import { Route, Switch } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import Signup from "./pages/signup";
 import { Home } from "./pages/home";
-import { Homepage } from "./components/home";
+import { HomePage } from "./components/HomePage";
 import { Dashboard } from "./components/dashboard";
-import { Userprofile } from "./components/user_profile";
+import { Userprofile } from "./components/UserProfile";
 import { Booking } from "./components/booking";
 import { Ticketbookingform } from "./pages/ticket_booking_form";
 import { Bookingform } from "./pages/booking_form";
-import { Movieupload } from "./admin/movie_upload";
+import { MovieUpload } from "./admin/MovieUpload";
 import { Feedback } from "./pages/feedback_page";
 import { MovieDetails } from "./pages/movie_details";
 import { Successresponse } from "./response/success_response";
 import { Adminpage } from "./admin/admin_page";
 import { Retrievefeedback } from "./admin/retrieve_feedback";
-import { Adminprofile } from "./admin/admin_profile";
-import { AdminBooking } from "./admin/admin_booking";
+import { AdminProfile } from "./admin/AdminProfile";
+import { AdminRetreiveBooking } from "./admin/AdminRetreiveBooking";
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
             <Home />
           </Route>
           <Route exact path="/homepage">
-            <Homepage />
+            <HomePage />
           </Route>
           <Route exact path="/dashboard">
             <Dashboard />
@@ -46,11 +46,11 @@ function App() {
           <Route exact path="/bookingform">
             <Bookingform />
           </Route>
-          <Route exact path="/pickceat">
+          {/* <Route exact path="/pickceat">
             <Ticketbookingform />
-          </Route>
+          </Route> */}
           <Route exact path="/movieupload">
-            <Movieupload />
+            <MovieUpload />
           </Route>
           <Route exact path="/details">
             <MovieDetails />
@@ -64,11 +64,11 @@ function App() {
           <Route exact path="/retrievefeedback">
             <Retrievefeedback />
           </Route>
-          <Route exact path="/adminprofile">
-            <Adminprofile />
+          <Route exact path="/AdminProfile">
+            <AdminProfile />
           </Route>
           <Route exact path="/adminbooking">
-            <AdminBooking />
+            <AdminRetreiveBooking />
           </Route>
         </Switch>
       </Router>

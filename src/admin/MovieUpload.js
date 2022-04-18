@@ -5,13 +5,14 @@ import "react-dropdown/style.css";
 
 import fire from "../files/firebase";
 import "../movie_details.css";
+import { CenterFocusStrong } from "@material-ui/icons";
 
-export const Movieupload = () => {
+export const MovieUpload = () => {
   const movieGenderList = ["Comedy", "Drama", "Action"];
   const [image, setimage] = useState(
     "https://blog.starzplay.com/wp-content/uploads/2016/02/teenwolf.jpg"
   );
-  const [moviename, setMovieName] = useState("Default name");
+  const [movieName, setmovieName] = useState("Default name");
   const [movieGender, setMovieGender] = useState("Comedie");
   const [ticketcost, setTicketCost] = useState("100");
   const [description, setdescription] = useState("Default description");
@@ -32,7 +33,7 @@ export const Movieupload = () => {
   const movieUpload = (e) => {
     e.preventDefault();
     if (
-      moviename === "" ||
+      movieName === "" ||
       image === "" ||
       viedo === "" ||
       description === "" ||
@@ -47,7 +48,7 @@ export const Movieupload = () => {
         .firestore()
         .collection("currentmovies")
         .add({
-          moviename: moviename,
+          movieName: movieName,
           image: image,
           viedourl: viedo,
           ticketcost: ticketcost,
@@ -62,7 +63,7 @@ export const Movieupload = () => {
           console.log("Movie Added Successfully");
           // setimage("");
           // setviedo("");
-          // setMovieName("");
+          // setmovieName("");
           // setTicketCost("");
           // setdescription("");
           // setactorname("");
@@ -152,7 +153,7 @@ export const Movieupload = () => {
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/adminprofile",
+                  pathname: "/AdminProfile",
                   state: {
                     profile: profile,
                     name: name,
@@ -218,20 +219,18 @@ export const Movieupload = () => {
           <div
             class="form-container sign-in-container"
             style={{
-              height: "auto",
+              height: "100%",
+              width: "100%",
               left: "0",
-              width: "max-content",
-              zIndex: 2,
-              marginLeft: "33%",
-              marginTop: "9%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <form
               className="upload-form"
               style={{
                 background: "#f6f5f7",
-                marginLeft: "-50%",
-                marginTop: "inherit",
               }}
             >
               <h2 className="upload-font" style={{ fontWeight: "bold" }}>
@@ -273,8 +272,8 @@ export const Movieupload = () => {
                     className="formInput"
                     type="text"
                     placeholder="Movie name"
-                    value={moviename}
-                    onChange={(e) => setMovieName(e.target.value)}
+                    value={movieName}
+                    onChange={(e) => setmovieName(e.target.value)}
                   />
                 </div>
 

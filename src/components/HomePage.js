@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { Icon } from "semantic-ui-react";
-
-import MovieCard from "../components/MovieCard";
-import MovieCardUser from "../components/MovieCardUser";
 import fire from "../files/firebase";
-import "./adminPage.css";
+import "../movie_details.css";
+import "./HomePage.css";
+import "./home.css";
+import Nav from "./Nav";
+import MovieCardUser from "./MovieCardUser";
+import FilterMovies from "./FilterMovies";
 
-export const Adminpage = () => {
+export const HomePage = () => {
   const history = useHistory();
   const location = useLocation();
   const profile = location.state.profile;
@@ -15,15 +16,30 @@ export const Adminpage = () => {
   const email = location.state.email;
   const password = location.state.password;
   const mobile = location.state.mobile;
-  const [movieData, setMovieData] = useState([]);
-  const [movieDeleted, setMovieDeleted] = useState(false);
+  const [ungroupedMovieData, setUngroupedMovieData] = useState([]);
+  const [movieData, setMovieData] = useState({});
+  const [movieFilterValue, setMovieFilterValue] = useState("");
+
+  const handleOnInputChange = (value) => {
+    setMovieFilterValue(value);
+
+    const filtredMovies = ungroupedMovieData.filter((movie) => {
+      return movie.actorname.includes(value)
+    })
+    setUngroupedMovieData(filtredMovies)
+  };
+  // movieData = {
+  //   Action:[{film1},{film2},...],
+  //   Comedy:[{film1},{film2},...],
+  //   Romance:[{film1},{film2},...]
+  // }
 
   useEffect(() => {
-    let moviesGroupedByGender = {
-      Comedie: [],
-      Action: [],
-      // Romance: [],
-    }
+    console.log("🚀 ~ email", email);
+  }, []);
+
+  useEffect(() => {
+    let allMovies = [];
     fire
       .firestore()
       .collection("currentmovies")
@@ -31,21 +47,36 @@ export const Adminpage = () => {
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           var data = doc.data();
-          moviesGroupedByGender = { ...moviesGroupedByGender, [data.movieGender]: [...moviesGroupedByGender.[data.movieGender], data] };
+          allMovies = [...allMovies, data];
+          // return allMovies;
+          // moviesGroupedByGender = { ...moviesGroupedByGender, [data.movieGender]: [...moviesGroupedByGender.[data.movieGender], data] };
         });
-        setMovieData(moviesGroupedByGender)
+      })
+      .then(() => {
+        setUngroupedMovieData(allMovies);
       });
-    console.log(movieData);
-  }, [movieDeleted]);
+  }, []);
 
-  console.log('locstiom', location.state);
+  useEffect(() => {
+    let moviesGroupedByGender = {
+      Comedie: [],
+      Action: [],
+      // Romance: [],
+    };
+
+    ungroupedMovieData.forEach((el) => {
+        moviesGroupedByGender = { ...moviesGroupedByGender, [el.movieGender]: [...moviesGroupedByGender.[el.movieGender], el] };
+    });
+    setMovieData(moviesGroupedByGender);
+  }, [ungroupedMovieData]);
 
   return (
-    <div className="wrapper">
+    <div className="homePage">
       <link
         href="../assets/css/material-dashboard.css?v=2.1.2"
         rel="stylesheet"
       />
+
       <div
         className="sidebar"
         data-color="purple"
@@ -65,7 +96,7 @@ export const Adminpage = () => {
             <li className="nav-item active  ">
               <Link
                 to={{
-                  pathname: "/adminpage",
+                  pathname: "/homepage",
                   state: {
                     profile: profile,
                     name: name,
@@ -83,7 +114,7 @@ export const Adminpage = () => {
             <li className="nav-item">
               <Link
                 to={{
-                  pathname: "/movieupload",
+                  pathname: "/dashboard",
                   state: {
                     profile: profile,
                     name: name,
@@ -95,13 +126,13 @@ export const Adminpage = () => {
                 className="nav-link"
               >
                 <i className="material-icons">dashboard</i>
-                <p>Movie Upload</p>
+                <p>Dashboard</p>
               </Link>
             </li>
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/adminbooking",
+                  pathname: "/bookings",
                   state: {
                     profile: profile,
                     name: name,
@@ -113,13 +144,13 @@ export const Adminpage = () => {
                 className="nav-link"
               >
                 <i className="material-icons">content_paste</i>
-                <p>Retrieve Bookings</p>
+                <p>Bookings</p>
               </Link>
             </li>
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/adminprofile",
+                  pathname: "/userprofile",
                   state: {
                     profile: profile,
                     name: name,
@@ -137,7 +168,7 @@ export const Adminpage = () => {
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/retrievefeedback",
+                  pathname: "/feedback",
                   state: {
                     profile: profile,
                     name: name,
@@ -161,97 +192,26 @@ export const Adminpage = () => {
           </ul>
         </div>
       </div>
-      <div className="main-panel">
-        <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-          <div className="container-fluid">
-            <div className="navbar-wrapper"></div>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              aria-controls="navigation-index"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="sr-only">Toggle navigation</span>
-              <span className="navbar-toggler-icon icon-bar"></span>
-              <span className="navbar-toggler-icon icon-bar"></span>
-              <span className="navbar-toggler-icon icon-bar"></span>
-            </button>
-          </div>
-        </nav>
-        <div className="row-wrapper">
-          {Object.keys(movieData).map((key) => {
-            console.log("🚀 ~ movieData", movieData);
-            return (
-              <>
-                <h1>{key}</h1>
-                <div className="movieRow">
-                  {movieData[key].map((movie, index) => {
-                    return (
-                      <MovieCardUser
-                        movie={movie}
-                        index={index}
-                        email={email}
-                        admin = {true}  
-                        setMovieDeleted={setMovieDeleted}
-                        movieDeleted={movieDeleted}
-
-                      />
-                    );
-                  })}
-                </div>
-              </>
-            );
-          })}
-
-          {/* {movieData.map((data, index) => {
-            return (
-              <MovieCard
-                data={data}
-                movieDeleted={movieDeleted}
-                setMovieDeleted={setMovieDeleted}
-              />
-            );
-          })} */}
-          <Icon name="angle right" size="mini" />
-        </div>
-        {/* <div className="row-wrapper">
-          <h1>Drama</h1>
-          {movieData.map((data, index) => {
-            return (
-              <MovieCard
-                data={data}
-                movieDeleted={movieDeleted}
-                setMovieDeleted={setMovieDeleted}
-              />
-            );
-          })}
-        </div>
-        <div className="row-wrapper">
-          <h1>Action</h1>
-          {movieData.map((data, index) => {
-            return (
-              <MovieCard
-                data={data}
-                movieDeleted={movieDeleted}
-                setMovieDeleted={setMovieDeleted}
-              />
-            );
-          })}
-        </div>
-        <div className="row-wrapper">
-          <h1>Romance</h1>
-          {movieData.map((data, index) => {
-            return (
-              <MovieCard
-                data={data}
-                movieDeleted={movieDeleted}
-                setMovieDeleted={setMovieDeleted}
-              />
-            );
-          })}
-        </div> */}
+      <div className="posters">
+        <FilterMovies
+          setMovieFilterValue={setMovieFilterValue}
+          movieFilterValue={movieFilterValue}
+          handleOnInputChange={handleOnInputChange}
+        />
+        {Object.keys(movieData).map((key) => {
+          return (
+            <>
+              <h1>{key}</h1>
+              <div className="movieRow">
+                {movieData[key].map((movie, index) => {
+                  return (
+                    <MovieCardUser movie={movie} index={index} email={email} />
+                  );
+                })}
+              </div>
+            </>
+          );
+        })}
       </div>
     </div>
   );

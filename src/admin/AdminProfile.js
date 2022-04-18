@@ -1,54 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import fire from "../files/firebase";
-import "../movie_details.css";
-import MovieRow from "./MovieRow";
-import "./home.css";
-import Nav from "./Nav";
+import "../profile.css";
 
-export const Homepage = () => {
-  const history = useHistory();
+export const AdminProfile = () => {
   const location = useLocation();
   const profile = location.state.profile;
   const name = location.state.name;
   const email = location.state.email;
   const password = location.state.password;
   const mobile = location.state.mobile;
-  const [movieData, setMovieData] = useState({});
-  // movieData = {
-  //   Action:[{film1},{film2},...],
-  //   Comedy:[{film1},{film2},...],
-  //   Romance:[{film1},{film2},...]
-  // }
-
-  useEffect(() => {
-    let moviesGroupedByGender = {
-      Comedie: [],
-      Action: [],
-      // Romance: [],
-    }
-    fire
-      .firestore()
-      .collection("currentmovies")
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          var data = doc.data();
-          moviesGroupedByGender = { ...moviesGroupedByGender, [data.movieGender]: [...moviesGroupedByGender.[data.movieGender], data] };
-        });
-        setMovieData(moviesGroupedByGender)
-      });
-  }, []);
-
-  useEffect(()=>{
-    console.log("🚀 ~ movieData", movieData)
-  },[movieData])
+  console.log(profile, name, email, password, mobile);
 
   return (
-    <div className="homePage">
-            <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-
-        <div
+    <div>
+      <link
+        href="../assets/css/material-dashboard.css?v=2.1.2"
+        rel="stylesheet"
+      />
+      <div
         className="sidebar"
         data-color="purple"
         data-background-color="white"
@@ -64,10 +34,10 @@ export const Homepage = () => {
         </div>
         <div className="sidebar-wrapper">
           <ul className="nav">
-            <li className="nav-item active  ">
+            <li className="nav-item">
               <Link
                 to={{
-                  pathname: "/homepage",
+                  pathname: "/adminpage",
                   state: {
                     profile: profile,
                     name: name,
@@ -85,7 +55,7 @@ export const Homepage = () => {
             <li className="nav-item">
               <Link
                 to={{
-                  pathname: "/dashboard",
+                  pathname: "/movieupload",
                   state: {
                     profile: profile,
                     name: name,
@@ -97,13 +67,13 @@ export const Homepage = () => {
                 className="nav-link"
               >
                 <i className="material-icons">dashboard</i>
-                <p>Dashboard</p>
+                <p>Movie Upload</p>
               </Link>
             </li>
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/bookings",
+                  pathname: "/adminbooking",
                   state: {
                     profile: profile,
                     name: name,
@@ -115,13 +85,13 @@ export const Homepage = () => {
                 className="nav-link"
               >
                 <i className="material-icons">content_paste</i>
-                <p>Bookings</p>
+                <p>Retrieve Bookings</p>
               </Link>
             </li>
-            <li className="nav-item ">
+            <li className="nav-item active">
               <Link
                 to={{
-                  pathname: "/userprofile",
+                  pathname: "/AdminProfile",
                   state: {
                     profile: profile,
                     name: name,
@@ -139,7 +109,7 @@ export const Homepage = () => {
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/feedback",
+                  pathname: "/retrievefeedback",
                   state: {
                     profile: profile,
                     name: name,
@@ -163,13 +133,85 @@ export const Homepage = () => {
           </ul>
         </div>
       </div>
-      <div className="posters">
-        {Object.keys(movieData).map((key) => {
-          return <>
-          <h1>{key}</h1>
-           <MovieRow movies={movieData[key]}  />
-          </>
-        })}
+      <div className="main-panel">
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+          <div class="container-fluid">
+            <div class="navbar-wrapper"></div>
+            <button
+              class="navbar-toggler"
+              id="pro-nav"
+              type="button"
+              data-toggle="collapse"
+              aria-controls="navigation-index"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="sr-only">Toggle navigation</span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
+          </div>
+        </nav>
+        <div
+          style={{
+            height: "100vh",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            className="profile"
+            style={{
+              fontFamily: "sans-serif",
+              textAlign: "center",
+              maxWidth: "350px",
+              boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+              padding: "100px",
+            }}
+          >
+            <img
+              src={profile}
+              alt="Profile Image"
+              className="profile__image"
+              style={{
+                width: "150px",
+                height: "150px",
+                objectFit: "cover",
+                borderRadius: "50%",
+                margin: "0 auto 20px auto",
+                display: "block",
+                marginTop: "-8%",
+              }}
+            />
+            <div
+              className="profile__name"
+              style={{ fontSize: "1.2em", fontWeight: "bold" }}
+            >
+              {name}
+            </div>
+            <br />
+            <div className="profile__title" style={{ marginBottom: "20px" }}>
+              {email}
+            </div>
+
+            <div
+              className="profile__detail"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "0.9em",
+                marginBottom: "20px",
+              }}
+            >
+              <i className="material-icons">person</i>
+              {mobile}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
