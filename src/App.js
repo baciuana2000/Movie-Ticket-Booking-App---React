@@ -2,20 +2,20 @@ import { Route, Switch } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import Signup from "./pages/signup";
 import { Home } from "./pages/home";
-import { HomePage } from "./components/HomePage";
-import { Dashboard } from "./components/dashboard";
-import { Userprofile } from "./components/UserProfile";
-import { Booking } from "./components/booking";
+import { HomePage } from "./user/HomePage";
+import { DashboardUser } from "./user/DashboardUser";
+import { Userprofile } from "./user/UserProfile";
+import { Booking } from "./user/BookingUser";
 import { Ticketbookingform } from "./pages/ticket_booking_form";
 import { Bookingform } from "./pages/booking_form";
 import { MovieUpload } from "./admin/MovieUpload";
-import { Feedback } from "./pages/feedback_page";
 import { MovieDetails } from "./pages/movie_details";
 import { Successresponse } from "./response/success_response";
-import { Adminpage } from "./admin/admin_page";
-import { Retrievefeedback } from "./admin/retrieve_feedback";
+import { AdminHome } from "./admin/AdminHome";
+import { FeedbackAdmin } from "./admin/FeedbackAdmin";
 import { AdminProfile } from "./admin/AdminProfile";
 import { AdminRetreiveBooking } from "./admin/AdminRetreiveBooking";
+import { FeedbackUser } from "./user/FeedbackUser";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
             <HomePage />
           </Route>
           <Route exact path="/dashboard">
-            <Dashboard />
+            <DashboardUser />
           </Route>
           <Route exact path="/bookings">
             <Booking />
@@ -41,7 +41,7 @@ function App() {
             <Userprofile />
           </Route>
           <Route exact path="/feedback">
-            <Feedback />
+            <FeedbackUser />
           </Route>
           <Route exact path="/bookingform">
             <Bookingform />
@@ -59,10 +59,10 @@ function App() {
             <Successresponse />
           </Route>
           <Route exact path="/adminpage">
-            <Adminpage />
+            <AdminHome />
           </Route>
           <Route exact path="/retrievefeedback">
-            <Retrievefeedback />
+            <FeedbackAdmin />
           </Route>
           <Route exact path="/AdminProfile">
             <AdminProfile />

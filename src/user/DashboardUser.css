@@ -1,0 +1,12 @@
+.dashboardRow {
+  width: auto;
+}
+
+.dashboardCard {
+  width: 90%;
+}
+
+.dashboardCardsContainer {
+  width: 100%;
+  display: flex;
+}

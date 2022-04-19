@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import NavbarAdmin from "../components/NavbarAdmin";
+import NavbarUser from "../components/NavbarUser";
 import fire from "../files/firebase";
 import "../profile.css";
 
-export const AdminProfile = () => {
+export const Userprofile = () => {
   const location = useLocation();
   const profile = location.state.profile;
   const name = location.state.name;
@@ -19,7 +19,7 @@ export const AdminProfile = () => {
         href="../assets/css/material-dashboard.css?v=2.1.2"
         rel="stylesheet"
       />
-      <NavbarAdmin profile={profile} email={email} />
+      <NavbarUser profile={profile} email={email} />
 
       <div className="main-panel">
         <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
@@ -58,6 +58,7 @@ export const AdminProfile = () => {
               maxWidth: "350px",
               boxShadow: "0 0 10px rgba(0,0,0,0.2)",
               padding: "100px",
+              marginLeft: "200px",
             }}
           >
             <img
