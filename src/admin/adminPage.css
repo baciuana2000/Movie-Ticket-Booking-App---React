@@ -1,0 +1,11 @@
+.adminPageWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.row-wrapper {
+  margin: 12px;
+  margin-left: 212px;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,24 @@
+.movieRow {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.movieCardUser {
+  margin: 0.3vh;
+  /* border-radius: 10%; */
+}
+
+.cardImg {
+  position: relative;
+}
+
+.actorName {
+  position: absolute;
+  z-index: 1;
+  font-weight: 600;
+  color: white;
+}
+
+.homeWrapper {
+  display: flex;
+}

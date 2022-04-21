@@ -1,0 +1,8 @@
+.movieCardUser {
+  transition: transform 0.2s;
+  display: grid;
+}
+
+.movieCardUser:hover {
+  transform: scale(1.1);
+}

@@ -1,25 +1,23 @@
-import { Route, Switch } from 'react-router-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Signup from './pages/signup';
-import { Home } from './pages/home';
-import { Homepage } from './components/home';
-import { Dashboard } from './components/dashboard';
-import { Userprofile } from './components/user_profile';
-import { Booking } from './components/booking';
-import { Ticketbookingform } from './pages/ticket_booking_form';
-import { Bookingform } from './pages/booking_form';
-import { Movieupload } from './admin/movie_upload';
-import { Feedback } from './pages/feedback_page';
-import { MovieDetails } from './pages/movie_details';
-import { Successresponse } from './response/success_response';
-import { Adminpage } from './admin/admin_page';
-import { Retrievefeedback } from './admin/retrieve_feedback';
-import { Adminprofile } from './admin/admin_profile';
-import { AdminBooking } from './admin/admin_booking';
+import { Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import Signup from "./pages/signup";
+import { Home } from "./pages/home";
+import { HomePage } from "./user/HomePage";
+import { DashboardUser } from "./user/DashboardUser";
+import { Userprofile } from "./user/UserProfile";
+import { Booking } from "./user/BookingUser";
+import { Ticketbookingform } from "./pages/ticket_booking_form";
+import { Bookingform } from "./pages/booking_form";
+import { MovieUpload } from "./admin/MovieUpload";
+import { MovieDetails } from "./pages/movie_details";
+import { Successresponse } from "./response/success_response";
+import { AdminHome } from "./admin/AdminHome";
+import { FeedbackAdmin } from "./admin/FeedbackAdmin";
+import { AdminProfile } from "./admin/AdminProfile";
+import { AdminRetreiveBooking } from "./admin/AdminRetreiveBooking";
+import { FeedbackUser } from "./user/FeedbackUser";
 
 function App() {
-
-
   return (
     <div>
       <Router>
@@ -31,10 +29,10 @@ function App() {
             <Home />
           </Route>
           <Route exact path="/homepage">
-            <Homepage />
+            <HomePage />
           </Route>
           <Route exact path="/dashboard">
-            <Dashboard />
+            <DashboardUser />
           </Route>
           <Route exact path="/bookings">
             <Booking />
@@ -43,16 +41,16 @@ function App() {
             <Userprofile />
           </Route>
           <Route exact path="/feedback">
-            <Feedback />
+            <FeedbackUser />
           </Route>
           <Route exact path="/bookingform">
             <Bookingform />
           </Route>
-          <Route exact path="/pickceat">
+          {/* <Route exact path="/pickceat">
             <Ticketbookingform />
-          </Route>
+          </Route> */}
           <Route exact path="/movieupload">
-            <Movieupload />
+            <MovieUpload />
           </Route>
           <Route exact path="/details">
             <MovieDetails />
@@ -61,16 +59,16 @@ function App() {
             <Successresponse />
           </Route>
           <Route exact path="/adminpage">
-            <Adminpage />
+            <AdminHome />
           </Route>
           <Route exact path="/retrievefeedback">
-            <Retrievefeedback />
+            <FeedbackAdmin />
           </Route>
-          <Route exact path="/adminprofile">
-            <Adminprofile />
+          <Route exact path="/AdminProfile">
+            <AdminProfile />
           </Route>
           <Route exact path="/adminbooking">
-            <AdminBooking />
+            <AdminRetreiveBooking />
           </Route>
         </Switch>
       </Router>

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import fire from "../files/firebase";
+// import "../movie_details.css";
+import MovieCardUser from "./MovieCardUser";
+import "./home.css";
 
-export const Adminpage = () => {
+export const Homepage = () => {
   const history = useHistory();
   const location = useLocation();
   const profile = location.state.profile;
@@ -10,18 +13,7 @@ export const Adminpage = () => {
   const email = location.state.email;
   const password = location.state.password;
   const mobile = location.state.mobile;
-  const [moviedata, setmoviedata] = useState([]);
-  const [movieDeleted, setMovieDeleted] = useState(false);
-
-  const deleteMovie = (data) => {
-    fire
-      .firestore()
-      .collection("currentmovies")
-      .where("moviename", "==", data.data.moviename)
-      .get()
-      .then((doc) => doc.docs[0].ref.delete())
-      .then(() => setMovieDeleted(!movieDeleted));
-  };
+  const [movieData, setMovieData] = useState([]);
 
   useEffect(() => {
     fire
@@ -29,22 +21,17 @@ export const Adminpage = () => {
       .collection("currentmovies")
       .get()
       .then((snapshot) => {
-        setmoviedata([]);
         snapshot.forEach((doc) => {
           var data = doc.data();
           //console.log(data);
-          setmoviedata((arr) => [...arr, { data: data }]);
+          setMovieData((arr) => [...arr, { data: data }]);
         });
       });
-    console.log(moviedata);
-  }, [movieDeleted]);
+    console.log(movieData);
+  }, []);
   return (
     <div className="wrapper ">
-      <link
-        href="../assets/css/material-dashboard.css?v=2.1.2"
-        rel="stylesheet"
-      />
-      <div
+      {/* <div
         className="sidebar"
         data-color="purple"
         data-background-color="white"
@@ -63,7 +50,7 @@ export const Adminpage = () => {
             <li className="nav-item active  ">
               <Link
                 to={{
-                  pathname: "/adminpage",
+                  pathname: "/homepage",
                   state: {
                     profile: profile,
                     name: name,
@@ -81,7 +68,7 @@ export const Adminpage = () => {
             <li className="nav-item">
               <Link
                 to={{
-                  pathname: "/movieupload",
+                  pathname: "/dashboard",
                   state: {
                     profile: profile,
                     name: name,
@@ -93,13 +80,13 @@ export const Adminpage = () => {
                 className="nav-link"
               >
                 <i className="material-icons">dashboard</i>
-                <p>Movie Upload</p>
+                <p>Dashboard</p>
               </Link>
             </li>
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/adminbooking",
+                  pathname: "/bookings",
                   state: {
                     profile: profile,
                     name: name,
@@ -111,13 +98,13 @@ export const Adminpage = () => {
                 className="nav-link"
               >
                 <i className="material-icons">content_paste</i>
-                <p>Retrieve Bookings</p>
+                <p>Bookings</p>
               </Link>
             </li>
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/adminprofile",
+                  pathname: "/userprofile",
                   state: {
                     profile: profile,
                     name: name,
@@ -135,7 +122,7 @@ export const Adminpage = () => {
             <li className="nav-item ">
               <Link
                 to={{
-                  pathname: "/retrievefeedback",
+                  pathname: "/feedback",
                   state: {
                     profile: profile,
                     name: name,
@@ -158,9 +145,9 @@ export const Adminpage = () => {
             </li>
           </ul>
         </div>
-      </div>
-      <div className="main-panel">
-        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      </div> */}
+      <div className="homeWrapper">
+        {/* <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
           <div class="container-fluid">
             <div class="navbar-wrapper"></div>
             <button
@@ -177,28 +164,11 @@ export const Adminpage = () => {
               <span class="navbar-toggler-icon icon-bar"></span>
             </button>
           </div>
-        </nav>
-
-        <div className="row">
-          {moviedata.map((data, index) => {
-            //console.log(data.image);
-            return (
-              <div
-                className="col-4"
-                key={index}
-                style={{ marginLeft: "auto", marginRight: "auto" }}
-              >
-                <div className="card">
-                  <div className="card-img-top img-fluid">
-                    <img
-                      src={data.data.image}
-                      style={{ width: "18rem", height: "20rem" }}
-                    />
-                  </div>
-                  <button onClick={() => deleteMovie(data)}>Delete</button>
-                </div>
-              </div>
-            );
+        </nav> */}
+        <div className="moviesRow">
+          {movieData.map((movie, index) => {
+            console.log(movie.data.image);
+            return <MovieCardUser movie={movie} />;
           })}
         </div>
       </div>
