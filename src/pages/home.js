@@ -22,6 +22,7 @@ export const Home = () => {
         data-color="purple"
         data-background-color="white"
         data-image="../assets/img/sidebar-1.jpg"
+        style={{ width: "200px" }}
       >
         <div className="logo">
           <a

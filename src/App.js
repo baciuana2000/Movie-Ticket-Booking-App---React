@@ -16,6 +16,7 @@ import { FeedbackAdmin } from "./admin/FeedbackAdmin";
 import { AdminProfile } from "./admin/AdminProfile";
 import { AdminRetreiveBooking } from "./admin/AdminRetreiveBooking";
 import { FeedbackUser } from "./user/FeedbackUser";
+import { Statistics } from "./admin/Statistics";
 
 function App() {
   return (
@@ -69,6 +70,9 @@ function App() {
           </Route>
           <Route exact path="/adminbooking">
             <AdminRetreiveBooking />
+          </Route>
+          <Route exact path="/statistics">
+            <Statistics />
           </Route>
         </Switch>
       </Router>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useLocation, Link } from "react-router-dom";
 import NavbarAdmin from "../components/NavbarAdmin";
 import fire from "../files/firebase";
 import "../movie_details.css";
+import "./AdminRetreiveBooking.css";
 
 export const AdminRetreiveBooking = () => {
   const history = useHistory();
@@ -50,7 +51,6 @@ export const AdminRetreiveBooking = () => {
         .firestore()
         .collection("Bookings")
         .where("bookingdate", "==", bookingdate)
-        // .where("username", "==", username)
         .get()
         .then((snapshot) => {
           const progress = Math.round(
@@ -62,6 +62,22 @@ export const AdminRetreiveBooking = () => {
             setUserBooking((arr) => [...arr, { data: data }]);
           });
         });
+      // fire
+      //   .firestore()
+      //   .collection("Bookings")
+      //   .where("email ", "==", userEmail)
+      //   // .where("username", "==", username)
+      //   .get()
+      //   .then((snapshot) => {
+      //     const progress = Math.round(
+      //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      //     );
+      //     setprogress(progress);
+      //     snapshot.forEach((el) => {
+      //       var data = el.data();
+      //       setUserBooking((arr) => [...arr, { data: data }]);
+      //     });
+      //   });
     }
   };
 
@@ -70,12 +86,20 @@ export const AdminRetreiveBooking = () => {
     setSelectedSerchField(e.target.id);
   };
 
+  useEffect(() => {
+    console.log(
+      "🚀 ~ file: AdminRetreiveBooking.js ~ line 80 ~ AdminRetreiveBooking ~ userBooking",
+      userBooking
+    );
+  }, [userBooking]);
+
   return (
     <div className="wrapper">
       <link
         href="../assets/css/material-dashboard.css?v=2.1.2"
         rel="stylesheet"
       />
+
       <NavbarAdmin profile={profile} email={email} />
 
       <div className="main-panel">
@@ -100,14 +124,14 @@ export const AdminRetreiveBooking = () => {
         </nav>
         <div className="main-panel">
           <div
-            class="form-container sign-in-container"
+            class="form-container sign-in-container form-class"
             style={{
               height: "100%",
               left: "0",
               width: "100%",
               display: "flex",
-              justifyContent: "center",
               alignItems: "center",
+              flexDirection: "column",
             }}
           >
             <form className="retrieve-form">

@@ -8,6 +8,7 @@ export default function NavbarAdmin({ profile, email }) {
       data-color="purple"
       data-background-color="white"
       data-image="../assets/img/sidebar-1.jpg"
+      style={{ width: "200px" }}
     >
       <div className="logo">
         <a
@@ -54,6 +55,25 @@ export default function NavbarAdmin({ profile, email }) {
           <div className="navbarNameAndIcon">
             <i className="material-icons">dashboard</i>
             <p className="navbarItemText">Movie Upload</p>
+          </div>
+        </NavLink>
+        <NavLink
+          activeClassName="is-active"
+          to={{
+            pathname: "/statistics",
+            state: {
+              profile: profile,
+              // name: name,
+              email: email,
+              // password: password,
+              // mobile: mobile,
+            },
+          }}
+          className="navbarItem"
+        >
+          <div className="navbarNameAndIcon">
+            <i className="material-icons">dashboard</i>
+            <p className="navbarItemText">Statistics</p>
           </div>
         </NavLink>
         <NavLink

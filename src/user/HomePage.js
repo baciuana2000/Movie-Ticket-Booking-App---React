@@ -24,9 +24,9 @@ export const HomePage = () => {
     setMovieFilterValue(value);
 
     const filtredMovies = ungroupedMovieData.filter((movie) => {
-      return movie.actorname.includes(value)
-    })
-    setUngroupedMovieData(filtredMovies)
+      return movie.actorname.includes(value);
+    });
+    setUngroupedMovieData(filtredMovies);
   };
   // movieData = {
   //   Action:[{film1},{film2},...],
@@ -59,13 +59,13 @@ export const HomePage = () => {
 
   useEffect(() => {
     let moviesGroupedByGender = {
-      Comedie: [],
-      Action: [],
+      // Comedie: [],
+      // Action: [],
       // Romance: [],
     };
 
     ungroupedMovieData.forEach((el) => {
-        moviesGroupedByGender = { ...moviesGroupedByGender, [el.movieGender]: [...moviesGroupedByGender.[el.movieGender], el] };
+        moviesGroupedByGender = { ...moviesGroupedByGender, [el.movieGender]: moviesGroupedByGender.[el.movieGender]?[...moviesGroupedByGender.[el.movieGender], el] :[el] };
     });
     setMovieData(moviesGroupedByGender);
   }, [ungroupedMovieData]);
@@ -77,7 +77,7 @@ export const HomePage = () => {
         rel="stylesheet"
       />
 
-<NavbarUser profile={profile} email={email} />
+      <NavbarUser profile={profile} email={email} />
 
       <div className="posters">
         <FilterMovies

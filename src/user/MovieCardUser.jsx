@@ -43,7 +43,7 @@ export default function MovieCardUser({
           className="bookNowButton"
           onClick={() => {
             console.log("🚀 ~ movie", movie);
-            deleteMovie(movie.moviename);
+            deleteMovie(movie.movieName);
           }}
         >
           Delete
@@ -58,8 +58,9 @@ export default function MovieCardUser({
                 releasedate: movie.releasedate,
                 outdate: movie.outdate,
                 movieimage: movie.image,
-                moviename: movie.moviename,
+                moviename: movie.movieName,
                 ticketcost: movie.ticketcost,
+                theater: movie.theater,
                 email: email,
               },
             })

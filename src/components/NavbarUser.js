@@ -8,6 +8,7 @@ export default function Navbar({ profile, email }) {
       data-color="purple"
       data-background-color="white"
       data-image="../assets/img/sidebar-1.jpg"
+      style={{ width: "200px" }}
     >
       <div className="logo">
         <a

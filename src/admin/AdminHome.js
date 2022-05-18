@@ -20,11 +20,7 @@ export const AdminHome = () => {
   const [movieDeleted, setMovieDeleted] = useState(false);
 
   useEffect(() => {
-    let moviesGroupedByGender = {
-      Comedie: [],
-      Action: [],
-      // Romance: [],
-    }
+    let moviesGroupedByTheater = {}
     fire
       .firestore()
       .collection("currentmovies")
@@ -32,14 +28,19 @@ export const AdminHome = () => {
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           var data = doc.data();
-          moviesGroupedByGender = { ...moviesGroupedByGender, [data.movieGender]: [...moviesGroupedByGender.[data.movieGender], data] };
+          console.log("🚀 ~ file: AdminHome.js ~ line 37 ~ snapshot.forEach ~ moviesGroupedByTheater", moviesGroupedByTheater)
+          moviesGroupedByTheater = {
+             ...moviesGroupedByTheater,
+             [data.theater]: moviesGroupedByTheater.[data.theater]
+             ?[...moviesGroupedByTheater.[data.theater], data]
+             :[data] };
         });
-        setMovieData(moviesGroupedByGender)
+        setMovieData(moviesGroupedByTheater)
       });
     console.log(movieData);
   }, [movieDeleted]);
 
-  console.log('locstiom', location.state);
+  console.log("locstiom", location.state);
 
   return (
     <div className="wrapper">
@@ -47,7 +48,7 @@ export const AdminHome = () => {
         href="../assets/css/material-dashboard.css?v=2.1.2"
         rel="stylesheet"
       />
-          <NavbarAdmin profile={profile} email={email} />
+      <NavbarAdmin profile={profile} email={email} />
 
       <div className="main-panel">
         <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
@@ -75,16 +76,16 @@ export const AdminHome = () => {
               <>
                 <h1>{key}</h1>
                 <div className="movieRow">
-                  {movieData[key].map((movie, index) => {
+                  {
+                  movieData[key].map((movie, index) => {
                     return (
                       <MovieCardUser
                         movie={movie}
                         index={index}
                         email={email}
-                        admin = {true}  
+                        admin={true}
                         setMovieDeleted={setMovieDeleted}
                         movieDeleted={movieDeleted}
-
                       />
                     );
                   })}
